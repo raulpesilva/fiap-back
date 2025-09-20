@@ -11,7 +11,9 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths": {},
+    "paths": {
+      "src/*": ["./src/*"]
+    },
     "types": ["node", "./src/@types/declarations/index.d.ts"]
   },
   "include": ["src", "test"],
