@@ -22,7 +22,7 @@ server.register(publicRoutes);
 server.register(privateRoutes);
 server.get('/', () => ({ status: 'ok' }));
 
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 4013;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 server.listen({ port: PORT }, (err, address) => {
   if (err) {
     console.error(err);
