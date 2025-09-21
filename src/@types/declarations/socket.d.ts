@@ -2,6 +2,7 @@ import { PublicUser, Transaction } from '../db';
 
 export interface ServerToClientEvents {
   'notification:new': () => void;
+  'notification:update': () => void;
   'product:update': () => void;
   'transaction:new': (transaction: Transaction) => void;
   'goal:new': () => void;
