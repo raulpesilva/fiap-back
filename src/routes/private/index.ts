@@ -1,5 +1,6 @@
 import { FastifyPluginCallback } from 'fastify';
 import { verifyToken } from 'src/utils';
+import { adminRoutes } from './admin';
 import { eventsPlugin } from './events';
 import { farmRoutes } from './farm';
 import { goalRoutes } from './goal';
@@ -31,6 +32,7 @@ export const privateRoutes: FastifyPluginCallback = (server, options, done) => {
   server.register(webSocketsRoutes);
   server.register(notificationsRoutes);
   server.register(eventsPlugin);
+  server.register(adminRoutes);
   if (process.env.NODE_ENV === 'development') server.register(userRoutes);
   server.log.info(`node env: ${process.env.NODE_ENV}`);
   done();

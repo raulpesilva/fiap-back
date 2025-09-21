@@ -79,6 +79,11 @@ export class DBTable<
       return documents.map(this.options.normalize) as ReturnType<R>[] extends any[] ? never : ReturnType<R>[];
     return documents;
   }
+
+  clear() {
+    this.data.clear();
+    this.initialID = 1;
+  }
 }
 
 class Database<Tables extends { [key: string]: DBTable<any> } = {}> {
@@ -92,6 +97,10 @@ class Database<Tables extends { [key: string]: DBTable<any> } = {}> {
     const table = this.tables[name];
     if (!table) throw new Error(`Table ${name.toString()} does not exist`);
     return table;
+  }
+
+  clear() {
+    Object.values(this.tables).forEach((table) => table.clear());
   }
 }
 
@@ -124,6 +133,10 @@ export class MultiTenantDB {
   deleteInstance(id: number) {
     this.databaseInstances.delete(id);
   }
+
+  clear() {
+    this.databaseInstances.clear();
+  }
 }
 
 export const db = new Database({
@@ -133,7 +146,7 @@ export const db = new Database({
 
 export const multiTenantDB = new MultiTenantDB();
 
-const mock = async () => {
+export const mockDB = async () => {
   const usersTable = db.getTable('users');
 
   const user = usersTable.insert({ name: 'raul', email: 'raul@fiap.com', password: await hashPassword('123456') });
@@ -147,7 +160,15 @@ const mock = async () => {
   const product4 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 4', icon: 'carrot', color: 'orange' });
 
   const goalsTable = farmDB.getTable('goals');
-  const goal = goalsTable.insert({ farm_id: farm.id, product_id: product1.id, name: 'meta 1', type: 'storage', measure: 'quantity', target: 1000, value: 0 });
+  const goal = goalsTable.insert({
+    farm_id: farm.id,
+    product_id: product1.id,
+    name: 'meta 1',
+    type: 'storage',
+    measure: 'quantity',
+    target: 1000,
+    value: 0,
+  });
 };
 
-mock();
+mockDB();
