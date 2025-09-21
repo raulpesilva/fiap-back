@@ -7,16 +7,13 @@ export interface ServerToClientEvents {
   'transaction:new': (transaction: Transaction) => void;
   'goal:new': () => void;
   'goal:updated': () => void;
-  'transaction:event': (farmId: number) => void;
 }
 
 export interface ClientToServerEvents {
   joinFarmRoom: (farmId: string) => void;
 }
 
-export interface InterServerEvents {
-  'transaction:event': (farmId: number) => void;
-}
+export interface InterServerEvents {}
 
 export interface SocketData {}
 
