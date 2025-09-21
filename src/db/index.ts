@@ -50,7 +50,7 @@ export class DBTable<
     query: (doc: T, index: number) => boolean,
     options: { normalize?: boolean | ((doc: T) => ResultType) } = {}
   ) {
-    const documents = Array.from(this.data.values());
+    const documents = Array.from(this.data.values()).sort((a, b) => b.id - a.id);
     const result = documents.filter(query);
     if (options.normalize && this.options?.normalize) {
       const normalize = typeof options.normalize === 'function' ? options.normalize : this.options.normalize;
@@ -74,7 +74,7 @@ export class DBTable<
     return { success: true, deletedCount: documents.length };
   }
   getAll() {
-    const documents = Array.from(this.data.values());
+    const documents = Array.from(this.data.values()).sort((a, b) => b.id - a.id);
     if (this.options?.normalize)
       return documents.map(this.options.normalize) as ReturnType<R>[] extends any[] ? never : ReturnType<R>[];
     return documents;
@@ -141,10 +141,10 @@ const mock = async () => {
   const farmDB = multiTenantDB.getInstance(farm.id);
 
   const productsTable = farmDB.getTable('products');
-  const product1 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 1', icon: 'icon', color: '#0099ff' });
-  const product2 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 2', icon: 'icon', color: '#0099ff' });
-  const product3 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 3', icon: 'icon', color: '#0099ff' });
-  const product4 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 4', icon: 'icon', color: '#0099ff' });
+  const product1 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 1', icon: 'sprout', color: 'blue' });
+  const product2 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 2', icon: 'vegan', color: 'purple' });
+  const product3 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 3', icon: 'cherry', color: 'pink' });
+  const product4 = productsTable.insert({ farm_id: farm.id, name: 'Fiap 4', icon: 'carrot', color: 'orange' });
 
   const goalsTable = farmDB.getTable('goals');
   const goal = goalsTable.insert({ farm_id: farm.id, product_id: product1.id, name: 'meta 1', type: 'storage', measure: 'quantity', target: 1000, value: 0 });
