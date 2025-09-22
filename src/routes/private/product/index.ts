@@ -80,10 +80,11 @@ export const productRoutes: FastifyPluginCallback = (server, options, done) => {
   type DeleteProduct = { Params: { id: number; farm_id: number } };
   server.delete<DeleteProduct>('/product/:farm_id/:id', defaultOptions, async (request, reply) => {
     const { id, farm_id } = request.params;
-    const { success } = multiTenantDB
-      .getInstance(farm_id)
-      .getTable('products')
-      .delete((p) => p.id === id);
+
+    const farmDB = multiTenantDB.getInstance(farm_id);
+    const { success } = farmDB.getTable('products').delete((p) => p.id === id);
+    farmDB.getTable('transactions').delete((t) => t.product_id === id);
+    farmDB.getTable('goals').delete((g) => g.product_id === id);
     if (!success) return reply.code(404).send({ error: ERRORS.PRODUCT_NOT_FOUND });
 
     server.io.to(`farm_${farm_id}`).emit('product:update');
