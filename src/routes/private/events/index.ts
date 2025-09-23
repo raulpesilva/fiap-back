@@ -44,12 +44,12 @@ export const eventsPlugin: FastifyPluginCallback = (server, _options, done) => {
 
     completedGoals.forEach((goal) => {
       if (!goal.completed) return goalsTable.update((g) => g.id === goal.id, goal);
-      const formattedTarget = goal.measure === 'price' ? `$${formatBRLCurrencyDisplay(goal.target)}` : goal.target;
+      const formattedTarget = goal.measure === 'price' ? `${formatBRLCurrencyDisplay(goal.target)}` : goal.target;
       pubSub.publish('notification:new', {
         farm_id: farmId,
         title: `Goal "${goal.name}" completed!`,
-        message: `Congratulations! The goal "${goal.name}" has reached its target of ${formattedTarget} ${goal.measure}.`,
-        type: 'goal',
+        message: `Congratulations! The goal "${goal.name}" has reached its target ${goal.measure} ${formattedTarget}.`,
+        type: goal.type,
       });
 
       goalsTable.update((g) => g.id === goal.id, { ...goal, notified: new Date().toISOString() });
