@@ -1,5 +1,6 @@
 import { FastifyPluginCallback } from 'fastify';
 import { multiTenantDB } from 'src/db';
+import { formatBRLCurrencyDisplay } from 'src/utils/formatCurrency';
 import { PubSub } from 'src/utils/pubsub';
 
 type InterServerEvents = {
@@ -43,11 +44,11 @@ export const eventsPlugin: FastifyPluginCallback = (server, _options, done) => {
 
     completedGoals.forEach((goal) => {
       if (!goal.completed) return goalsTable.update((g) => g.id === goal.id, goal);
-
+      const formattedTarget = goal.measure === 'price' ? `$${formatBRLCurrencyDisplay(goal.target)}` : goal.target;
       pubSub.publish('notification:new', {
         farm_id: farmId,
         title: `Goal "${goal.name}" completed!`,
-        message: `Congratulations! The goal "${goal.name}" has reached its target of ${goal.target} ${goal.measure}.`,
+        message: `Congratulations! The goal "${goal.name}" has reached its target of ${formattedTarget} ${goal.measure}.`,
         type: 'goal',
       });
 
