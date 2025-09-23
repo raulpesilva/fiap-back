@@ -28,7 +28,7 @@ export const formatBRLCurrencyInput = (value: any) => {
 
 export const formatBRLCurrencyDisplay = (value: number) => {
   if (!value && value !== 0) return 'R$ 0,00';
-  const stringValue = String(value / 100);
+  const stringValue = String((value / 100).toFixed(2));
   const formatted = formatBRLCurrencyInput(stringValue);
   return formatted;
 };
