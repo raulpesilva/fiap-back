@@ -10,7 +10,7 @@ const defaultOptions = {
   schema: { params: farmParams, querystring: farmQueryString },
 };
 const postTransactionOptions = { schema: { params: farmParams } };
-export const transactionRoutes: FastifyPluginCallback = (server, options, done) => {
+export const transactionRoutes: FastifyPluginCallback = (server, _options, done) => {
   interface GetTransactions {
     Params: { farm_id: number };
     Querystring: { filter?: string };

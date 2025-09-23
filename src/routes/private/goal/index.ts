@@ -7,7 +7,7 @@ const defaultOptions = {
   schema: farmParams,
 };
 
-export const goalRoutes: FastifyPluginCallback = (server, options, done) => {
+export const goalRoutes: FastifyPluginCallback = (server, _options, done) => {
   server.get<{ Params: { farm_id: number } }>('/goals/:farm_id', defaultOptions, async (request, reply) => {
     const { farm_id } = request.params;
     if (!farm_id) return reply.code(400).send({ error: 'User has no farm associated' });

@@ -10,7 +10,7 @@ import { transactionRoutes } from './transactions';
 import { userRoutes } from './user';
 import { webSocketsRoutes } from './websockets';
 
-export const privateRoutes: FastifyPluginCallback = (server, options, done) => {
+export const privateRoutes: FastifyPluginCallback = (server, _options, done) => {
   server.decorateRequest('user', null);
   server.addHook('preHandler', async (request, reply) => {
     const authHeader = request.headers['authorization'];

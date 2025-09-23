@@ -9,7 +9,7 @@ const defaultOptions = {
   schema: farmParams,
 };
 
-export const notificationsRoutes: FastifyPluginCallback = (server, options, done) => {
+export const notificationsRoutes: FastifyPluginCallback = (server, _options, done) => {
   server.get<{ Params: { farm_id: number } }>('/notifications/:farm_id', defaultOptions, async (request, reply) => {
     const { farm_id } = request.params;
     if (!farm_id) return reply.code(400).send({ error: 'User has no farm associated' });
@@ -32,7 +32,7 @@ export const notificationsRoutes: FastifyPluginCallback = (server, options, done
       notification.read = new Date().toISOString();
       notificationsTable.update((n) => n.id === id, notification);
       server.io.to(`farm_${farm_id}`).emit('notification:update');
-      return notification
+      return notification;
     }
   );
 

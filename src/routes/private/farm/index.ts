@@ -10,8 +10,8 @@ const ERRORS = {
 const idProperty = { id: { type: 'number' } };
 const farmParams = { params: { type: 'object', properties: { ...idProperty } } };
 
-export const farmRoutes: FastifyPluginCallback = (server, options, done) => {
-  server.get('/farms', async (request, reply) => {
+export const farmRoutes: FastifyPluginCallback = (server, _options, done) => {
+  server.get('/farms', async () => {
     const farms = db.getTable('farms').getAll();
     return farms;
   });
