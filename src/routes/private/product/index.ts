@@ -88,6 +88,8 @@ export const productRoutes: FastifyPluginCallback = (server, options, done) => {
     if (!success) return reply.code(404).send({ error: ERRORS.PRODUCT_NOT_FOUND });
 
     server.io.to(`farm_${farm_id}`).emit('product:update');
+    server.io.to(`farm_${farm_id}`).emit('goal:updated');
+    server.io.to(`farm_${farm_id}`).emit('notification:update');
 
     return reply.code(204).send();
   });
