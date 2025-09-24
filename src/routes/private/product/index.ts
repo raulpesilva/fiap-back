@@ -82,10 +82,9 @@ export const productRoutes: FastifyPluginCallback = (server, _options, done) => 
     const { id, farm_id } = request.params;
 
     const farmDB = multiTenantDB.getInstance(farm_id);
-    const { success } = farmDB.getTable('products').delete((p) => p.id === id);
+    farmDB.getTable('products').delete((p) => p.id === id);
     farmDB.getTable('transactions').delete((t) => t.product_id === id);
     farmDB.getTable('goals').delete((g) => g.product_id === id);
-    if (!success) return reply.code(404).send({ error: ERRORS.PRODUCT_NOT_FOUND });
 
     server.io.to(`farm_${farm_id}`).emit('product:update');
     server.io.to(`farm_${farm_id}`).emit('goal:updated');
