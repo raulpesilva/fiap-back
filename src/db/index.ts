@@ -70,8 +70,7 @@ export class DBTable<
     const documents = this.find(query);
     const totalDocuments = this.data.size;
     documents.forEach((doc) => this.data.delete(doc));
-    if (this.data.size === totalDocuments) throw new Error(DB_ERROS.DOCUMENT_NOT_FOUND);
-    return { success: true, deletedCount: documents.length };
+    return { deletedCount: totalDocuments - this.data.size };
   }
   getAll() {
     const documents = Array.from(this.data.values()).sort((a, b) => b.id - a.id);
