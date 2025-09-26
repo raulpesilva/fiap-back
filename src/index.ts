@@ -1,5 +1,6 @@
 import 'dotenv/config';
 
+import cors from '@fastify/cors';
 import Fastify from 'fastify';
 import fastifySocketIO from 'fastify-socket.io';
 import { publicRoutes } from './routes';
@@ -17,6 +18,8 @@ const server = Fastify({
   },
 });
 
+// allow all origins
+server.register(cors, { origin: '*' });
 server.register(fastifySocketIO);
 server.register(publicRoutes);
 server.register(privateRoutes);
