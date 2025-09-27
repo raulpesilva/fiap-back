@@ -16,6 +16,7 @@ const farmAndProductId = { params: { type: 'object', properties: { ...idProperty
 const farmParams = { params: { type: 'object', properties: { ...farmIdProperty } } };
 const defaultOptions = {
   schema: farmAndProductId,
+  config: { cors: { origin: '*' } },
 };
 export const productRoutes: FastifyPluginCallback = (server, _options, done) => {
   server.get<{ Params: { farm_id: number } }>('/products/:farm_id', { schema: farmParams }, async (request, reply) => {
