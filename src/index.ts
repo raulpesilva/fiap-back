@@ -19,7 +19,7 @@ const server = Fastify({
 });
 
 // allow all origins
-server.register(cors, { origin: '*' });
+server.register(cors, { origin: false });
 server.register(fastifySocketIO, { cors: { origin: '*' } });
 server.register(publicRoutes);
 server.register(privateRoutes);
