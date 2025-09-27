@@ -1,3 +1,4 @@
+import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { verifyToken } from 'src/utils';
 import { adminRoutes } from './admin';
@@ -11,6 +12,7 @@ import { userRoutes } from './user';
 import { webSocketsRoutes } from './websockets';
 
 export const privateRoutes: FastifyPluginCallback = (server, _options, done) => {
+  server.register(cors, { origin: '*' });
   server.decorateRequest('user', null);
   server.addHook('preHandler', async (request, reply) => {
     const authHeader = request.headers['authorization'];

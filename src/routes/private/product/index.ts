@@ -1,3 +1,4 @@
+import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { Product } from 'src/@types/db';
 import { multiTenantDB } from 'src/db';
@@ -18,6 +19,8 @@ const defaultOptions = {
   schema: farmAndProductId,
 };
 export const productRoutes: FastifyPluginCallback = (server, _options, done) => {
+  server.register(cors, { origin: '*' });
+
   server.get<{ Params: { farm_id: number } }>('/products/:farm_id', { schema: farmParams }, async (request, reply) => {
     const farm_id = request.params.farm_id;
     if (!farm_id) return reply.code(400).send({ error: ERRORS.INVALID_FARM_ID });

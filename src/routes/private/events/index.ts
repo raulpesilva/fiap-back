@@ -1,3 +1,4 @@
+import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { multiTenantDB } from 'src/db';
 import { formatBRLCurrencyDisplay } from 'src/utils/formatCurrency';
@@ -10,6 +11,8 @@ type InterServerEvents = {
 export const pubSub = new PubSub<InterServerEvents>();
 
 export const eventsPlugin: FastifyPluginCallback = (server, _options, done) => {
+    server.register(cors, { origin: '*' });
+  
   pubSub.subscribe('transaction:event', (farmId) => {
     server.log.info({ 'transaction:event': farmId });
     const goalsTable = multiTenantDB.getInstance(farmId).getTable('goals');

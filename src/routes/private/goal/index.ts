@@ -1,3 +1,4 @@
+import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { multiTenantDB } from 'src/db';
 
@@ -8,6 +9,8 @@ const defaultOptions = {
 };
 
 export const goalRoutes: FastifyPluginCallback = (server, _options, done) => {
+    server.register(cors, { origin: '*' });
+  
   server.get<{ Params: { farm_id: number } }>('/goals/:farm_id', defaultOptions, async (request, reply) => {
     const { farm_id } = request.params;
     if (!farm_id) return reply.code(400).send({ error: 'User has no farm associated' });
