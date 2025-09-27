@@ -1,4 +1,3 @@
-import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { Transaction, TransactionPayload } from 'src/@types/db';
 import { multiTenantDB } from 'src/db';
@@ -12,8 +11,6 @@ const defaultOptions = {
 };
 const postTransactionOptions = { schema: { params: farmParams } };
 export const transactionRoutes: FastifyPluginCallback = (server, _options, done) => {
-    server.register(cors, { origin: '*' });
-  
   interface GetTransactions {
     Params: { farm_id: number };
     Querystring: { filter?: string };

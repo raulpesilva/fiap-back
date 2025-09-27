@@ -1,4 +1,3 @@
-import cors from '@fastify/cors';
 import fp from 'fastify-plugin';
 import { SESSION_DURATION } from 'src/constants';
 import { db } from 'src/db';
@@ -11,8 +10,6 @@ const ERRORS = {
 };
 
 export const publicRoutes = fp((server, options, done) => {
-  server.register(cors, { origin: '*' });
-
   server.post<{ Body: { email: string; password: string; name: string } }>('/sign-up', async (request, reply) => {
     const { email, password, name } = request.body;
 

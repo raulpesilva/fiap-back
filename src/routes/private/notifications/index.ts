@@ -1,4 +1,3 @@
-import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { multiTenantDB } from 'src/db';
 import { pubSub } from '../events';
@@ -11,8 +10,6 @@ const defaultOptions = {
 };
 
 export const notificationsRoutes: FastifyPluginCallback = (server, _options, done) => {
-    server.register(cors, { origin: '*' });
-  
   server.get<{ Params: { farm_id: number } }>('/notifications/:farm_id', defaultOptions, async (request, reply) => {
     const { farm_id } = request.params;
     if (!farm_id) return reply.code(400).send({ error: 'User has no farm associated' });

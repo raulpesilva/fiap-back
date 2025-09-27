@@ -1,4 +1,3 @@
-import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { Farm } from 'src/@types/db';
 import { db } from 'src/db';
@@ -12,8 +11,6 @@ const idProperty = { id: { type: 'number' } };
 const farmParams = { params: { type: 'object', properties: { ...idProperty } } };
 
 export const farmRoutes: FastifyPluginCallback = (server, _options, done) => {
-  server.register(cors, { origin: '*' });
-
   server.get('/farms', async () => {
     const farms = db.getTable('farms').getAll();
     return farms;

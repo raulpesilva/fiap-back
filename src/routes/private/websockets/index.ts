@@ -1,10 +1,7 @@
-import cors from '@fastify/cors';
 import { FastifyPluginCallback } from 'fastify';
 import { verifyToken } from 'src/utils';
 
 export const webSocketsRoutes: FastifyPluginCallback = (server, _options, done) => {
-  server.register(cors, { origin: '*' });
-
   server.ready().then(() => {
     server.log.info('Websocket routes plugin loaded.');
     server.io.use(async (socket, next) => {
