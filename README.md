@@ -50,7 +50,7 @@ Re-State: Biblioteca para gerenciamento de estado global de forma simples e reat
 
 Fastify: Framework web rápido e eficiente para Node.js, utilizado para construir a API do back-end.
 
-Socket.io Client: Cliente WebSocket para comunicação em tempo real com o servidor.
+Socket.io: WebSocket para comunicação em tempo real com o app e web.
 
 Jose: Biblioteca para manipulação de tokens JWT (JSON Web Tokens), que pode ser utilizada para autenticação e autorização.
 
